@@ -1,0 +1,49 @@
+class Square {
+    field int xcord, ycord,lastX, lastY, size;
+
+    constructor Square new(int x, int y, int inSize) {
+        let size = inSize;
+         
+        do draw(x,y);
+        return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+
+        return;
+    }
+    
+    method int getXCord() {
+        return xcord;
+    }
+
+    method int getYCord() {
+        return ycord;
+    }
+
+    method int getLastX() {
+        return lastX;
+    }
+
+    method int getLastY() {
+        return lastY;
+    }
+
+    method void erase() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(xcord, ycord, xcord + size, ycord + size);
+        return;
+    }
+
+    method void draw(int x, int y) {
+        let lastX = xcord;
+        let lastY = ycord;
+        let xcord = x;
+        let ycord = y;
+
+        do Screen.setColor(true);
+        do Screen.drawRectangle(x, y, x + size, y + size);
+        return;
+    }
+}
