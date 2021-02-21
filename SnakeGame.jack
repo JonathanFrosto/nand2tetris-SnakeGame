@@ -54,6 +54,52 @@ class SnakeGame {
         return;
     }
 
+    method void setDirection() {
+        var int key;
+        let key = Keyboard.keyPressed();
+        if (key = 131) { 
+            // up arrow
+            if (~(direction = 2)) {
+                let direction = 1;
+            }
+        }   
+        if (key = 133) {
+            // down arrow
+            if (~(direction = 1)){
+                let direction = 2;
+            }
+        }   
+        if (key = 130) {
+            // left arrow
+            if (~(direction = 4)){
+                let direction = 3;
+            }
+            
+        }   
+        if (key = 132) {
+            // right arrow
+            if (~(direction = 3)) {
+                let direction = 4;
+            }
+        }
+        return;
+    }
+
+    method void randFood() {
+        var int x, y;
+        let x = Random.randRange(492);
+        let y = Random.randRange(246);
+
+        while (x < 20) {
+            let x = Random.randRange(492);
+        }
+
+        do food.erase();
+        do food.draw(x, y);
+
+        return;
+    }
+
     method void run() {
         var char key;
         var boolean firstStep;
@@ -61,50 +107,17 @@ class SnakeGame {
         
         while (firstStep) {
             let key = Keyboard.keyPressed();
-            if (~(key = 0)) {
-                let firstStep = false;
-            }
+            if (~(key = 0)) { let firstStep = false; }
         }
 
         while (true) {
             do Sys.wait(400);
-            let key = Keyboard.keyPressed();
-            if (key = 131) { 
-                // up arrow
-                if (~(direction = 2)) {
-                    let direction = 1;
-                }
-            }   
-            if (key = 133) {
-                // down arrow
-                if (~(direction = 1)){
-                    let direction = 2;
-                }
-            }   
-            if (key = 130) {
-                // left arrow
-                if (~(direction = 4)){
-                    let direction = 3;
-                }
-                
-            }   
-            if (key = 132) {
-                // right arrow
-                if (~(direction = 3)) {
-                    let direction = 4;
-                }
-            } 
-
+            do setDirection();
             do moveSnake();   
 
             if (doSheAte()) {
                 do snake.grow();
-                do food.erase();
-                do food.draw(Random.randRange(492), Random.randRange(246));
-                while (food.getXCord() < 20) {
-                    do food.erase();
-                    do food.draw(Random.randRange(492), Random.randRange(246));
-                }
+                do randFood();
             }
         }
         return;
