@@ -1,0 +1,54 @@
+class SnakeGame {
+    field Snake snake;
+    field int direction;
+    field Square food;
+
+    constructor SnakeGame new() {
+        let snake = Snake.new(256, 128);
+        let food = Square.new(Random.randRange(502), Random.randRange(246), 10);
+        let direction = 0;
+
+        return this;
+    }
+
+    method void dispose() {
+        do snake.dispose();
+        do Memory.deAlloc(this);
+
+        return;
+    }
+
+    method void moveSnake() {
+        if (direction = 1) {do snake.moveUp();}
+        if (direction = 2) {do snake.moveDown();}
+        if (direction = 3) {do snake.moveLeft();}
+        if (direction = 4) {do snake.moveRight();}
+        
+        return;
+    }
+
+    method void run() {
+        var char key;
+        var boolean firstStep;
+        let firstStep = true;
+        
+        while (firstStep) {
+            let key = Keyboard.keyPressed();
+            if (~(key = 0)) {
+                let firstStep = false;
+            }
+        }
+
+        while (true) {
+            do Sys.wait(800);
+            let key = Keyboard.keyPressed();
+            if (key = 131) { let direction = 1; }   // up arrow
+            if (key = 133) { let direction = 2; }   // down arrow
+            if (key = 130) { let direction = 3; }   // left arrow
+            if (key = 132) { let direction = 4; }   // right arrow
+
+            do moveSnake();   
+        }
+       return;
+     }
+}
