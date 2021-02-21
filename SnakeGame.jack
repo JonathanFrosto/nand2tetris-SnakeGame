@@ -18,6 +18,33 @@ class SnakeGame {
         return;
     }
 
+    method boolean doSheAte() {
+        var int xFood, yFood, xFoodFinal, yFoodFinal;
+        var int xHead, yHead, xHeadFinal, yHeadFinal;
+
+        let xFood = food.getXCord();
+        let xFoodFinal = xFood + 10;
+        let yFood = food.getYCord();
+        let yFoodFinal = yFood + 10;
+
+        let xHead = snake.getXHead() - 1;
+        let xHeadFinal = xHead + 22;
+        let yHead = snake.getYHead() - 1;
+        let yHeadFinal = yHead + 22;
+
+        if ((xFood > xHead) | (xFoodFinal > xHead)) {      
+            if ((xFood < xHeadFinal) | (xFoodFinal < xHeadFinal)) {
+                if((yFood > yHead) | (yFoodFinal > yHead)) {
+                    if ((yFood < yHeadFinal) | (yFood < yHeadFinal)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     method void moveSnake() {
         if (direction = 1) {do snake.moveUp();}
         if (direction = 2) {do snake.moveDown();}
@@ -40,7 +67,7 @@ class SnakeGame {
         }
 
         while (true) {
-            do Sys.wait(800);
+            do Sys.wait(400);
             let key = Keyboard.keyPressed();
             if (key = 131) { let direction = 1; }   // up arrow
             if (key = 133) { let direction = 2; }   // down arrow
@@ -48,7 +75,17 @@ class SnakeGame {
             if (key = 132) { let direction = 4; }   // right arrow
 
             do moveSnake();   
+
+            if (doSheAte()) {
+                do snake.grow();
+                do food.erase();
+                do food.draw(Random.randRange(492), Random.randRange(246));
+                while (food.getXCord() < 20) {
+                    do food.erase();
+                    do food.draw(Random.randRange(492), Random.randRange(246));
+                }
+            }
         }
-       return;
-     }
+        return;
+    }
 }

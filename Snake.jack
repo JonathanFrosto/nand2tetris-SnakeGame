@@ -136,4 +136,26 @@ class Snake {
         return;
     }
 
+    method int getXHead() {
+        var Square head;
+        var int xCord;
+        let head = body.getValue(0);
+        let xCord = head.getXCord();
+        return xCord;
+    }
+
+    method int getYHead() {
+        var Square head;
+        let head = body.getValue(0);
+        return head.getYCord();
+    }
+
+    method void grow() {
+        var Square tail;
+        let tail = body.getValue(lenght - 1);
+
+        do body.add(Square.new(tail.getLastX(), tail.getLastY(), size));
+        let lenght = lenght + 1;
+        return;
+    }
 }
