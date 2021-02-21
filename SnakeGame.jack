@@ -69,10 +69,31 @@ class SnakeGame {
         while (true) {
             do Sys.wait(400);
             let key = Keyboard.keyPressed();
-            if (key = 131) { let direction = 1; }   // up arrow
-            if (key = 133) { let direction = 2; }   // down arrow
-            if (key = 130) { let direction = 3; }   // left arrow
-            if (key = 132) { let direction = 4; }   // right arrow
+            if (key = 131) { 
+                // up arrow
+                if (~(direction = 2)) {
+                    let direction = 1;
+                }
+            }   
+            if (key = 133) {
+                // down arrow
+                if (~(direction = 1)){
+                    let direction = 2;
+                }
+            }   
+            if (key = 130) {
+                // left arrow
+                if (~(direction = 4)){
+                    let direction = 3;
+                }
+                
+            }   
+            if (key = 132) {
+                // right arrow
+                if (~(direction = 3)) {
+                    let direction = 4;
+                }
+            } 
 
             do moveSnake();   
 
