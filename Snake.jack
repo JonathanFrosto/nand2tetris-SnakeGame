@@ -1,0 +1,139 @@
+class Snake {
+    field Array body;
+    field int lenght, size;
+
+    constructor Snake new(int xcord, int ycord) {
+        var int count;
+        let size = 20;
+        let lenght = 3;
+        let body = Array.new(lenght);
+        
+        let count = 0;
+        while (count < lenght) {
+            let body[count] = Square.new(xcord, ycord, size);
+            let xcord = xcord - size;
+            let count = count + 1;
+        }
+
+        return this;
+    }
+
+    method void dispose() {
+        var Square square;
+        var int count;
+        
+        let count = 0;
+        while (count < lenght) {
+            let square = body[count];
+            do square.dispose();
+            let count = count + 1;
+        }
+        do Memory.deAlloc(this);
+
+        return;
+    }
+
+    method void simpleMove(Square square, int xcord, int ycord) {
+        do square.erase();
+        do square.draw(xcord, ycord);
+
+        return;
+    }
+
+    method void moveUp() {
+        var int lastX, lastY, targetY, count;
+        var Square square;
+        let square = body[0];
+
+        let targetY = square.getYCord() - size;
+        if (targetY > -1) {
+            do simpleMove(square, square.getXCord(), targetY);
+            let lastX = square.getLastX();
+            let lastY = square.getLastY();
+
+            let count = 1;
+            while(count < lenght ) {
+                let square = body[count];
+                do simpleMove(square, lastX, lastY);
+                let lastX = square.getLastX();
+                let lastY = square.getLastY();
+                
+                let count = count + 1;
+            }
+        }
+        return;
+    }
+
+    method void moveDown() {
+        var int lastX, lastY, targetY, count;
+        var Square square;
+        let square = body[0];
+
+        let targetY = square.getYCord() + size;
+        if ((targetY + size) < 257) {
+            do simpleMove(square, square.getXCord(), targetY);
+            let lastX = square.getLastX();
+            let lastY = square.getLastY();
+
+            let count = 1;
+            while(count < lenght ) {
+                let square = body[count];
+                do simpleMove(square, lastX, lastY);
+                let lastX = square.getLastX();
+                let lastY = square.getLastY();
+                
+                let count = count + 1;
+            }
+        }
+        return;
+    }
+
+    method void moveRight() {
+        var int lastX, lastY, targetX, count;
+        var Square square;
+        let square = body[0];
+
+        let targetX = square.getXCord() + size;
+        if ((targetX + size) < 513) {
+            do simpleMove(square, targetX, square.getYCord());
+            let lastX = square.getLastX();
+            let lastY = square.getLastY();
+
+            let count = 1;
+            while(count < lenght ) {
+                let square = body[count];
+                do simpleMove(square, lastX, lastY);
+                let lastX = square.getLastX();
+                let lastY = square.getLastY();
+                
+                let count = count + 1;
+            }
+        }
+        return;
+    }
+
+    method void moveLeft() {
+        var int lastX, lastY, targetX, count;
+        var Square square;
+        let square = body[0];
+
+        let targetX = square.getXCord() - size;
+        if (targetX > -1) {
+            do simpleMove(square, targetX, square.getYCord());
+            let lastX = square.getLastX();
+            let lastY = square.getLastY();
+
+            let count = 1;
+            while(count < lenght ) {
+                let square = body[count];
+                do simpleMove(square, lastX, lastY);
+                let lastX = square.getLastX();
+                let lastY = square.getLastY();
+                
+                let count = count + 1;
+            }
+        }
+        return;
+    }
+
+}
