@@ -18,42 +18,6 @@ class SnakeGame {
         return;
     }
 
-    method boolean doSheAte() {
-        var int xFood, yFood, xFoodFinal, yFoodFinal;
-        var int xHead, yHead, xHeadFinal, yHeadFinal;
-
-        let xFood = food.getXCord();
-        let xFoodFinal = xFood + 10;
-        let yFood = food.getYCord();
-        let yFoodFinal = yFood + 10;
-
-        let xHead = snake.getXHead() - 1;
-        let xHeadFinal = xHead + 22;
-        let yHead = snake.getYHead() - 1;
-        let yHeadFinal = yHead + 22;
-
-        if ((xFood > xHead) | (xFoodFinal > xHead)) {      
-            if ((xFood < xHeadFinal) | (xFoodFinal < xHeadFinal)) {
-                if((yFood > yHead) | (yFoodFinal > yHead)) {
-                    if ((yFood < yHeadFinal) | (yFood < yHeadFinal)) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    method void moveSnake() {
-        if (direction = 1) {do snake.moveUp();}
-        if (direction = 2) {do snake.moveDown();}
-        if (direction = 3) {do snake.moveLeft();}
-        if (direction = 4) {do snake.moveRight();}
-        
-        return;
-    }
-
     method void setDirection() {
         var int key;
         let key = Keyboard.keyPressed();
@@ -85,6 +49,69 @@ class SnakeGame {
         return;
     }
 
+    method void moveSnake() {
+        if (direction = 1) {do snake.moveUp();}
+        if (direction = 2) {do snake.moveDown();}
+        if (direction = 3) {do snake.moveLeft();}
+        if (direction = 4) {do snake.moveRight();}
+        
+        return;
+    }
+    
+    method boolean collision() {
+        var int xHead, yHead, length, count;
+        var ArrayList snakeBody;
+        var Square tailPiece;
+
+        let snakeBody = snake.getBody();        
+
+        let xHead = snake.getXHead();
+        let yHead = snake.getYHead();
+
+        let count = 1;
+        let length = snake.getLength();
+        while (count < length) {
+            let tailPiece = snakeBody.getValue(count);
+
+            if (tailPiece.getXCord() = xHead) {
+                if(tailPiece.getYCord() = yHead) {
+                    return true;
+                }
+            }
+
+            let count = count + 1;
+        }
+
+        return false;
+    }
+
+    method boolean doSheAte() {
+        var int xFood, yFood, xFoodFinal, yFoodFinal;
+        var int xHead, yHead, xHeadFinal, yHeadFinal;
+
+        let xFood = food.getXCord();
+        let xFoodFinal = xFood + 10;
+        let yFood = food.getYCord();
+        let yFoodFinal = yFood + 10;
+
+        let xHead = snake.getXHead() - 1;
+        let xHeadFinal = xHead + 22;
+        let yHead = snake.getYHead() - 1;
+        let yHeadFinal = yHead + 22;
+
+        if ((xFood > xHead) | (xFoodFinal > xHead)) {      
+            if ((xFood < xHeadFinal) | (xFoodFinal < xHeadFinal)) {
+                if((yFood > yHead) | (yFoodFinal > yHead)) {
+                    if ((yFood < yHeadFinal) | (yFood < yHeadFinal)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     method void randFood() {
         var int x, y;
         let x = Random.randRange(492);
@@ -100,17 +127,20 @@ class SnakeGame {
         return;
     }
 
+    
+
     method void run() {
         var char key;
-        var boolean firstStep;
-        let firstStep = true;
+        var boolean firstStep, inGame;
         
+        let firstStep = true;
         while (firstStep) {
             let key = Keyboard.keyPressed();
             if (~(key = 0)) { let firstStep = false; }
         }
 
-        while (true) {
+        let inGame = true;
+        while (inGame) {
             do Sys.wait(400);
             do setDirection();
             do moveSnake();   
@@ -118,6 +148,13 @@ class SnakeGame {
             if (doSheAte()) {
                 do snake.grow();
                 do randFood();
+            }
+
+            if (collision()) {
+                let inGame = false;
+                do Screen.clearScreen();
+                do Output.moveCursor(11, 18);
+                do Output.printString("Fim do jogo, voce perdeu!");
             }
         }
         return;

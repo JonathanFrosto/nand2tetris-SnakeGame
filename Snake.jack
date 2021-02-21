@@ -1,15 +1,15 @@
 class Snake {
     field ArrayList body;
-    field int lenght, size;
+    field int length, size;
 
     constructor Snake new(int xcord, int ycord) {
         var int count;
         let size = 20;
-        let lenght = 3;
+        let length = 3;
         let body = ArrayList.new();
         
         let count = 0;
-        while (count < lenght) {
+        while (count < length) {
             do body.add(Square.new(xcord, ycord, size));
             let xcord = xcord - size;
             let count = count + 1;
@@ -23,8 +23,8 @@ class Snake {
         var int count;
         
         let count = 0;
-        while (count < lenght) {
-            let square = body[count];
+        while (count < length) {
+            let square = body.getValue(count);
             do square.dispose();
             let count = count + 1;
         }
@@ -52,7 +52,7 @@ class Snake {
             let lastY = square.getLastY();
 
             let count = 1;
-            while(count < lenght ) {
+            while(count < length ) {
                 let square = body.getValue(count);
                 do simpleMove(square, lastX, lastY);
                 let lastX = square.getLastX();
@@ -76,7 +76,7 @@ class Snake {
             let lastY = square.getLastY();
 
             let count = 1;
-            while(count < lenght ) {
+            while(count < length ) {
                 let square = body.getValue(count);
                 do simpleMove(square, lastX, lastY);
                 let lastX = square.getLastX();
@@ -100,7 +100,7 @@ class Snake {
             let lastY = square.getLastY();
 
             let count = 1;
-            while(count < lenght ) {
+            while(count < length ) {
                 let square = body.getValue(count);
                 do simpleMove(square, lastX, lastY);
                 let lastX = square.getLastX();
@@ -124,7 +124,7 @@ class Snake {
             let lastY = square.getLastY();
 
             let count = 1;
-            while(count < lenght ) {
+            while(count < length ) {
                 let square = body.getValue(count);
                 do simpleMove(square, lastX, lastY);
                 let lastX = square.getLastX();
@@ -152,10 +152,18 @@ class Snake {
 
     method void grow() {
         var Square tail;
-        let tail = body.getValue(lenght - 1);
+        let tail = body.getValue(length - 1);
 
         do body.add(Square.new(tail.getLastX(), tail.getLastY(), size));
-        let lenght = lenght + 1;
+        let length = length + 1;
         return;
+    }
+
+    method ArrayList getBody() {
+        return body;
+    }
+
+    method int getLength() {
+        return length;
     }
 }
