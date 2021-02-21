@@ -2,9 +2,8 @@ class ArrayList {
     field Array list;
     field int length;
 
-    constructor ArrayList new(int inLength) {
-        let list = Array.new(inLength);
-        let length = inLength;
+    constructor ArrayList new() {
+        let length = 0;
         return this;
     }
 
@@ -22,7 +21,10 @@ class ArrayList {
         
         let newArray[length] = value;
 
-        do list.dispose();
+        if(~(length = 0)) {
+            do list.dispose();
+        }
+        
         let list = newArray;
         let length = length + 1;
         return;

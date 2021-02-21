@@ -1,17 +1,10 @@
 class Main {
     function void main () {
-        // var SnakeGame game;
-        // let game = SnakeGame.new();
+        var SnakeGame game;
+        let game = SnakeGame.new();
         
-        // do game.run();
-        // do game.dispose();
-        var ArrayList list;
-        let list = ArrayList.new(1);
-        do list.setValue(0, 5);
-        do list.add(3);
-
-        do Output.printInt(list.getValue(0));
-        do Output.printInt(list.getValue(1));
+        do game.run();
+        do game.dispose();
         return;
     }
 }
