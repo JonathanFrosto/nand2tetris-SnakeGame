@@ -1,0 +1,39 @@
+class ArrayList {
+    field Array list;
+    field int length;
+
+    constructor ArrayList new(int inLength) {
+        let list = Array.new(inLength);
+        let length = inLength;
+        return this;
+    }
+
+    method void add(String value) {
+        var int count;
+        var Array newArray;
+        let newArray = Array.new(length + 1);
+    
+        let count = 0;
+        while (count < length) {
+            let newArray[count] = list[count];
+
+            let count = count + 1;
+        }
+        
+        let newArray[length] = value;
+
+        do list.dispose();
+        let list = newArray;
+        let length = length + 1;
+        return;
+    }
+
+    method void setValue(int index, String value) {
+        let list[index] = value;
+        return;
+    }
+
+    method String getValue(int index) {
+        return list[index];
+    }
+}
