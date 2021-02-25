@@ -87,28 +87,40 @@ class SnakeGame {
         return;
     }
 
-    method boolean doSheAte() {
+    method boolean doSheAte(Square bodyPiece, int xFood, int yFood) {
         var int xFood, yFood, xFoodFinal, yFoodFinal;
-        var int xHead, yHead, xHeadFinal, yHeadFinal;
+        var int xSquare, ySquare, xSquareFinal, ySquareFinal;
 
-        let xFood = food.getXCord();
         let xFoodFinal = xFood + 10;
-        let yFood = food.getYCord();
         let yFoodFinal = yFood + 10;
 
-        let xHead = snake.getXHead() - 1;
-        let xHeadFinal = xHead + 22;
-        let yHead = snake.getYHead() - 1;
-        let yHeadFinal = yHead + 22;
+        let xSquare = bodyPiece.getXCord() - 1;
+        let xSquareFinal = xSquare + 22;
+        let ySquare = bodyPiece.getYCord() - 1;
+        let ySquareFinal = ySquare + 22;
 
-        if ((xFood > xHead) | (xFoodFinal > xHead)) {      
-            if ((xFood < xHeadFinal) | (xFoodFinal < xHeadFinal)) {
-                if((yFood > yHead) | (yFoodFinal > yHead)) {
-                    if ((yFood < yHeadFinal) | (yFood < yHeadFinal)) {
+        if ((xFood > xSquare) | (xFoodFinal > xSquare)) {      
+            if ((xFood < xSquareFinal) | (xFoodFinal < xSquareFinal)) {
+                if((yFood > ySquare) | (yFoodFinal > ySquare)) {
+                    if ((yFood < ySquareFinal) | (yFood < ySquareFinal)) {
                         return true;
                     }
                 }
             }
+        }
+
+        return false;
+    }
+
+    method boolean foodConflict(int newXcord, int newYcord) {
+        var int count, length;
+        let length = snake.getLength();
+        
+        do Output.printInt(length);
+        let count = 0;
+        while (count < length) {
+            if (doSheAte(snake.getPiece(count), newXcord, newYcord)) { return true; }
+            let count = count + 1;
         }
 
         return false;
@@ -119,8 +131,9 @@ class SnakeGame {
         let x = Random.randRange(492);
         let y = Random.randRange(246);
 
-        while (x < 20) {
+        while ((x < 20) | foodConflict(x, y)) {
             let x = Random.randRange(492);
+            let y = Random.randRange(246);
         }
 
         do food.erase();
@@ -131,10 +144,7 @@ class SnakeGame {
 
     method boolean collision() {
         var int xHead, yHead, length, count;
-        var ArrayList snakeBody;
         var Square tailPiece;
-
-        let snakeBody = snake.getBody();        
 
         let xHead = snake.getXHead();
         let yHead = snake.getYHead();
@@ -142,7 +152,7 @@ class SnakeGame {
         let count = 1;
         let length = snake.getLength();
         while (count < length) {
-            let tailPiece = snakeBody.getValue(count);
+            let tailPiece = snake.getPiece(count);
 
             if (tailPiece.getXCord() = xHead) {
                 if(tailPiece.getYCord() = yHead) {
@@ -184,7 +194,7 @@ class SnakeGame {
             do setDirection();
             do moveSnake();   
 
-            if (doSheAte()) {
+            if (doSheAte(snake.getPiece(0), food.getXCord(), food.getYCord())) {
                 do snake.grow();
 
                 if (hasWon()) {

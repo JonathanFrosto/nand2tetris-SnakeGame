@@ -166,4 +166,8 @@ class Snake {
     method int getLength() {
         return length;
     }
+
+    method Square getPiece(int index) {
+        return body.getValue(index);
+    }
 }
