@@ -39,9 +39,9 @@ class SnakeGame {
 
             let currentChar = Keyboard.readChar();
 
-            if (currentChar = 65) { let difficult = 1000; }
-            if (currentChar = 66) { let difficult = 600; }
-            if (currentChar = 67) { let difficult = 300; }
+            if (currentChar = 65) { let difficult = 600; }
+            if (currentChar = 66) { let difficult = 300; }
+            if (currentChar = 67) { let difficult = 150; }
             do Screen.clearScreen();
         }
         return;
@@ -116,7 +116,6 @@ class SnakeGame {
         var int count, length;
         let length = snake.getLength();
         
-        do Output.printInt(length);
         let count = 0;
         while (count < length) {
             if (doSheAte(snake.getPiece(count), newXcord, newYcord)) { return true; }
