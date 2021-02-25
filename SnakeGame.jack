@@ -86,33 +86,6 @@ class SnakeGame {
         
         return;
     }
-    
-    method boolean collision() {
-        var int xHead, yHead, length, count;
-        var ArrayList snakeBody;
-        var Square tailPiece;
-
-        let snakeBody = snake.getBody();        
-
-        let xHead = snake.getXHead();
-        let yHead = snake.getYHead();
-
-        let count = 1;
-        let length = snake.getLength();
-        while (count < length) {
-            let tailPiece = snakeBody.getValue(count);
-
-            if (tailPiece.getXCord() = xHead) {
-                if(tailPiece.getYCord() = yHead) {
-                    return true;
-                }
-            }
-
-            let count = count + 1;
-        }
-
-        return false;
-    }
 
     method boolean doSheAte() {
         var int xFood, yFood, xFoodFinal, yFoodFinal;
@@ -156,14 +129,49 @@ class SnakeGame {
         return;
     }
 
+    method boolean collision() {
+        var int xHead, yHead, length, count;
+        var ArrayList snakeBody;
+        var Square tailPiece;
+
+        let snakeBody = snake.getBody();        
+
+        let xHead = snake.getXHead();
+        let yHead = snake.getYHead();
+
+        let count = 1;
+        let length = snake.getLength();
+        while (count < length) {
+            let tailPiece = snakeBody.getValue(count);
+
+            if (tailPiece.getXCord() = xHead) {
+                if(tailPiece.getYCord() = yHead) {
+                    return true;
+                }
+            }
+
+            let count = count + 1;
+        }
+
+        return false;
+    }
+
     method boolean hasWon() {
         if (snake.getLength() > 287) { return true; }
         return false;
     }
 
+    method void finalMessage(String text) {
+        do Screen.clearScreen();
+        do Output.moveCursor(11, 18);
+        do Output.printString(text);
+
+        return;
+    }
+
     method void run() {
         var char key;
-        var boolean firstStep, inGame;
+        var boolean firstStep;
         
         let firstStep = true;
         while (firstStep) {
@@ -171,30 +179,25 @@ class SnakeGame {
             if (~(key = 0)) { let firstStep = false; }
         }
 
-        let inGame = true;
-        while (inGame) {
+        while (true) {
             do Sys.wait(difficult);
             do setDirection();
             do moveSnake();   
 
             if (doSheAte()) {
                 do snake.grow();
-                
+
                 if (hasWon()) {
-                    let inGame = false;
-                    do Screen.clearScreen();
-                    do Output.moveCursor(11, 18);
-                    do Output.printString("Fim do jogo, voce perdeu!");
+                    do finalMessage("Parabens, voce ganhou!");
+                    return;
                 }
 
                 do randFood();
             }
 
             if (collision()) {
-                let inGame = false;
-                do Screen.clearScreen();
-                do Output.moveCursor(11, 18);
-                do Output.printString("Fim do jogo, voce perdeu!");
+                do finalMessage("Infelizment voce perdeu!");
+                return;
             }
         }
         return;
