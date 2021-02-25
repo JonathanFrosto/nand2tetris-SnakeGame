@@ -1,9 +1,11 @@
 class SnakeGame {
     field Snake snake;
-    field int direction;
+    field int direction, difficult;
     field Square food;
 
     constructor SnakeGame new() {
+        do init();
+
         let snake = Snake.new(256, 128);
         let food = Square.new(Random.randRange(502), Random.randRange(246), 10);
         let direction = 0;
@@ -15,6 +17,33 @@ class SnakeGame {
         do snake.dispose();
         do Memory.deAlloc(this);
 
+        return;
+    }
+
+    method void init() {
+        var int currentChar;
+
+        while (~(currentChar = 65) & ~(currentChar = 66) & ~(currentChar = 67)) {
+            do Output.moveCursor(9, 28);
+            do Output.printString("SNAKE GAME");
+
+            do Output.moveCursor(11, 28);
+            do Output.printString("A - FACIL");
+
+            do Output.moveCursor(12, 28);
+            do Output.printString("B - MEDIO");
+
+            do Output.moveCursor(13, 27);
+            do Output.printString("C - DIFICIL");
+            do Output.println();
+
+            let currentChar = Keyboard.readChar();
+
+            if (currentChar = 65) { let difficult = 1000; }
+            if (currentChar = 66) { let difficult = 600; }
+            if (currentChar = 67) { let difficult = 300; }
+            do Screen.clearScreen();
+        }
         return;
     }
 
@@ -127,8 +156,6 @@ class SnakeGame {
         return;
     }
 
-    
-
     method void run() {
         var char key;
         var boolean firstStep, inGame;
@@ -141,7 +168,7 @@ class SnakeGame {
 
         let inGame = true;
         while (inGame) {
-            do Sys.wait(400);
+            do Sys.wait(difficult);
             do setDirection();
             do moveSnake();   
 
