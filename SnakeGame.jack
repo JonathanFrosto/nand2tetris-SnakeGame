@@ -156,6 +156,11 @@ class SnakeGame {
         return;
     }
 
+    method boolean hasWon() {
+        if (snake.getLength() > 287) { return true; }
+        return false;
+    }
+
     method void run() {
         var char key;
         var boolean firstStep, inGame;
@@ -174,6 +179,14 @@ class SnakeGame {
 
             if (doSheAte()) {
                 do snake.grow();
+                
+                if (hasWon()) {
+                    let inGame = false;
+                    do Screen.clearScreen();
+                    do Output.moveCursor(11, 18);
+                    do Output.printString("Fim do jogo, voce perdeu!");
+                }
+
                 do randFood();
             }
 
